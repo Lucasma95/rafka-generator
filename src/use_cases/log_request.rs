@@ -1,7 +1,7 @@
 use crate::http::contracts::post_message::Request;
 use std::error::Error;
 
-pub trait RequestLogger {
+pub trait RequestLogger: Send + Sync {
     fn log(&self, request: &Request) -> Result<(), Box<dyn Error>>;
 }
 

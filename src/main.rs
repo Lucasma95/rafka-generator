@@ -3,6 +3,7 @@ pub mod use_cases;
 use actix_web::{get, web::Data, App, HttpResponse, HttpServer, Responder};
 use dotenvy::dotenv;
 use std::{env, sync::Arc};
+use use_cases::log_request::RequestLogger;
 
 
 #[get("/")]
@@ -18,7 +19,7 @@ async fn main() -> std::io::Result<()> {
     let port = define_port();
 
     let request_logger_impl = use_cases::log_request::RequestLoggerImpl::new();
-    let log_arc = Arc::new(request_logger_impl);
+    let log_arc = Arc::new(request_logger_impl) as Arc<dyn RequestLogger>;
 
     HttpServer::new(move || {
         App::new()
